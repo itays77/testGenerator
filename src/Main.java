@@ -101,8 +101,7 @@ public class Main {
                     scan.nextLine();
                     System.out.println("Enter answer title:");
                     String title = scan.nextLine();
-                    questionRepo.getQuestionsRepository()[qNum - 1].addAnswerToQuestion(title);
-
+                    questionRepo.addAnswerToExistingQuestion(title, qNum);
                     break;
                 }
                 case 3: {
@@ -115,25 +114,22 @@ public class Main {
                     for (int i = 0; i < numOfAnswers; i++) {
                         System.out.println("Enter answer");
                         String ans = scan.nextLine();
-                        questionRepo.getQuestionsRepository()[questionRepo.indexOfLastQuestion()].getAnswersForThisQuestion()[i].setAnswerTitle(ans);
+                        questionRepo.addAnswerToNewQuestion(ans, i);
                     }
+                    questionRepo.getQuestionsRepository()[questionRepo.indexOfLastQuestion()].printAnswersForQuestion();
                     System.out.println("Which answer is correct?");
                     int aNum = scan.nextInt();
-                    questionRepo.getQuestionsRepository()[questionRepo.indexOfLastQuestion()].printAnswersForQuestion();
-                    questionRepo.getQuestionsRepository()[questionRepo.indexOfLastQuestion()].setAnswerStatus(aNum - 1);
-                    System.out.println("New question has been successfully added to the repository");
-
+                    questionRepo.setStatusForNewQuestion(aNum);
                     break;
                 }
                 case 4: {
-                    int num1 = scan.nextInt();
                     questionRepo.printRepositoryQuestions();
                     System.out.println("Which question you would like to delete answer from?");
-                    questionRepo.getQuestionsRepository()[num1].printAnswersForQuestion();
+                    int num1 = scan.nextInt();
+                    questionRepo.getQuestionsRepository()[num1-1].printAnswersForQuestion();
                     System.out.println("Which answer you would like to delete?");
                     int num2 = scan.nextInt();
-                    questionRepo.getQuestionsRepository()[num1].removeAnswerForQuestion(num2);
-                    System.out.println("The answer has deleted");
+                    questionRepo.removeAnswerForQuestion(num1, num2);
 
                     break;
                 }
@@ -141,12 +137,10 @@ public class Main {
                     System.out.println("Which QUESTION you would like to delete from the repository?");
                     questionRepo.printRepositoryQuestions();
                     questionRepo.removeQuestionFromRepository(scan.nextInt());
-                    System.out.println("The question has deleted");
 
                     break;
                 }
                 case 6: {
-
                     System.out.println("How many questions will be in the test?");
                     int numOfQuestions = scan.nextInt();
                     Test t1 = new Test(numOfQuestions);

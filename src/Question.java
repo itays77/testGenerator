@@ -18,7 +18,7 @@ public class Question {
 
     // constructors
 
-
+    // no-args constructor <for hard coded questions>
     public Question() {
         this.questionNumber = ++QUESTION_NUMBER_COUNTER;
         this.answersForThisQuestion = new Answer[MAX_ANSWERS];
@@ -31,13 +31,10 @@ public class Question {
         this.answersForThisQuestion = new Answer[MAX_ANSWERS];
         createAnswersForThisQuestion();
         this.setCorrectAnswersNum(correctAnswersNum);
-
-
     }
 
-    // getters and setters
 
-    
+    // getters and setters
     public static int getQuestionNumberCounter() {
         return QUESTION_NUMBER_COUNTER;
     }
@@ -79,17 +76,6 @@ public class Question {
         }
     }
 
-    public int getCorrectAnswersNum() {
-        int index = 0;
-        for(int i = 0; i<answersForThisQuestion.length; i++) {
-            if(answersForThisQuestion[i].getAnswerStatus() == true) {
-                index = i + 1;
-                break;
-            }
-        }
-        return index;
-    }
-
     public void setCorrectAnswersNum(int correctAnswersNum) {
         if(correctAnswersNum > 0 && correctAnswersNum <answersForThisQuestion.length) {
             this.answersForThisQuestion[correctAnswersNum - 1].setStatus(true);
@@ -125,63 +111,48 @@ public class Question {
         }
     }
 
-
-
-
-
-    public void correctAnswers(int correctAnswersNum) {
-        if (correctAnswersNum < 1 || correctAnswersNum > answersForThisQuestion.length) {
-            System.out.println("Number is out of range");
-        } else {
-            for (int i = 0; i < correctAnswersNum; i++) {
-                System.out.println("The first correct answer is ");
-                Scanner scan = new Scanner(System.in);
-                int ansNum = scan.nextInt();
-                if (ansNum != 0 && ansNum < numOfAnswers) {
-                    answersForThisQuestion[ansNum - 1].setStatus(true);
-                }
-            }
-        }
-    }
-
+    // remove Answer for question selected by user
+    // check if num is valid and then shift the other Answer object
+    // set new answer number for the answers in the array
     public void removeAnswerForQuestion(int aNum) {
         int index = aNum-1;
 
-        if(index >=0 && index < this.answersForThisQuestion.length) {
+        if(index >=0 && index < indexOfFirstNull()) {
             this.answersForThisQuestion[index] = null;
+            System.out.println("The answer has deleted.");
 
-            for(int i = index; i< answersForThisQuestion.length-1; i++) {
+            for (int i = index; i < answersForThisQuestion.length - 1; i++) {
                 this.answersForThisQuestion[i] = answersForThisQuestion[i + 1];
             }
-        }
+            answersForThisQuestion[answersForThisQuestion.length - 1] = null;
 
-        answersForThisQuestion[answersForThisQuestion.length-1] = null;
-
-        for (int i = 0; i < answersForThisQuestion.length; i++) {
-            if (answersForThisQuestion[i] != null && answersForThisQuestion[i].getAnswerNumber() >= 1) {
-                System.out.print(answersForThisQuestion[i].getAnswerNumber());
-                this.answersForThisQuestion[i].setAnswerNumber(i+1);
-                System.out.print(answersForThisQuestion[i].getAnswerNumber());
-
+            for (int i = 0; i < answersForThisQuestion.length; i++) {
+                if (answersForThisQuestion[i] != null && answersForThisQuestion[i].getAnswerNumber() >= 1) {
+                    System.out.print(answersForThisQuestion[i].getAnswerNumber());
+                    this.answersForThisQuestion[i].setAnswerNumber(i + 1);
+                    System.out.print(answersForThisQuestion[i].getAnswerNumber());
+                }
             }
         }
+        else
+            System.out.println("Wrong number has been selected, try again");
     }
 
+    // Add answer by user input=> create a new answer object in the array, setting title and answer number.
     public void addAnswerToQuestion(String title) {
         int index = indexOfFirstNull();
         if(indexOfFirstNull() < 8) {
-            this.answersForThisQuestion[index] = new Answer();
-            this.answersForThisQuestion[index].setAnswerTitle(title);
-            this.answersForThisQuestion[index].setAnswerNumber(index+1);
+            answersForThisQuestion[index] = new Answer();
+            answersForThisQuestion[index].setAnswerTitle(title);
+            answersForThisQuestion[index].setAnswerNumber(index+1);
+            System.out.println("Answer has added!");
+
         } else {
-            System.out.println("Cannot add another answer, this question reached the maximum its allowed");
+            System.out.println("Cannot add more answers! it reached for the maximum number");
         }
     }
 
-    public void setAnswerStatus(int aNum) {
-        answersForThisQuestion[aNum].setStatus(true);
-    }
-
+    // return the number of the first null inside the answers array.
     public int indexOfFirstNull() {
         int index = 0;
         for (int i = 0; i < answersForThisQuestion.length; i++) {
@@ -192,7 +163,6 @@ public class Question {
         }
         return index;
     }
-
 
     @Override
     public String toString() {

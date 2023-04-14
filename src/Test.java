@@ -32,61 +32,32 @@ public class Test {
 
     //methods
 
+    // add question for the test
     public void addQuestionForThisTest(int j, int qNum, QuestionRepository q, int numOfAnswers) {
         this.testQuestions[j].setQuestionTitle(q.getQuestionFromRepository(qNum).getQuestionTitle());
-
+        //create new Answer object
         for (int i = 0; i < numOfAnswers + 2; i++) {
             this.testQuestions[j].getAnswersForThisQuestion()[i] = new Answer();
             this.testQuestions[j].getAnswersForThisQuestion()[i].setAnswerNumber(i + 1);
 
         }
+        // add the default answers in first null objects of the array
         this.testQuestions[j].getAnswersForThisQuestion()[numOfAnswers].setAnswerTitle("None of the above");
         this.testQuestions[j].getAnswersForThisQuestion()[numOfAnswers+1].setAnswerTitle("More than one answer");
 
     }
 
-
     public void addAnsForThisQuestion(int i,int aNum, QuestionRepository q, int qAdd, int j) {
-
         this.testQuestions[i].getAnswersForThisQuestion()[j].setAnswerTitle(q.getQuestionsRepository()[qAdd - 1].getAnswersForThisQuestion()[aNum - 1].getAnswerTitle());
     }
 
+    // set boolean status of question object in the test by user choice
     public void setStatus(int numOfCorrectAnswers, int numAns, int i) {
         if (numOfCorrectAnswers == 0) {
             this.testQuestions[i].getAnswersForThisQuestion()[numAns].setStatus(true);
         } else if (numOfCorrectAnswers > 1) {
             this.testQuestions[i].getAnswersForThisQuestion()[numAns + 1].setStatus(true);
         }
-    }
-
-
-
-    public void printQuestions() {
-        for (int i = 0; i < testQuestions.length; i++) {
-            System.out.println(testQuestions[i].getQuestionTitle());
-        }
-    }
-
-    public int indexOfFirstNull() {
-        int index = 0;
-        for (int i = 0; i < testQuestions.length; i++) {
-            if (testQuestions[i] == null) {
-                index = i;
-                break;
-            }
-        }
-        return index;
-    }
-
-    public int indexOfLastQuestion() {
-        int index = 0;
-        for (int i = 0; i < testQuestions.length; i++) {
-            if (testQuestions[i] == null) {
-                index = i - 1;
-                break;
-            }
-        }
-        return index;
     }
 
     public void createQuestionAndAnswersFile(Question[] questions) throws IOException {

@@ -33,32 +33,62 @@ public class QuestionRepository {
 
     public void addQuestionToRepository(String questionTitle, int numOfAnswers) {
         int index = indexOfFirstNull();
-        //if the questionsRepository is full, copy the array to a double length;
-        if (indexOfFirstNull() == questionsRepository.length) {
-            questionsRepository = Arrays.copyOf(questionsRepository, questionsRepository.length * 2);
+
+        if (numOfAnswers < 9) {
+            //if the questionsRepository is full, copy the array to a double length;
+            if (indexOfFirstNull() == questionsRepository.length) {
+                questionsRepository = Arrays.copyOf(questionsRepository, questionsRepository.length * 2);
+            }
+            // calling constructor and create new Question Object in the first index that is "free"
+            questionsRepository[index] = new Question(questionTitle, numOfAnswers);
         }
-        questionsRepository[index] = new Question(questionTitle, numOfAnswers);
     }
 
     public void removeQuestionFromRepository(int qNum) {
         int index = qNum - 1;
 
-        // check if the qNum is valid, and if set it to null and shift the other objects
-        if (index >= 0 && index < questionsRepository.length) {
+        // check if the qNum is valid, and set it to null than shift the other question objects
+        if (index >= 0 && index < indexOfLastQuestion()) {
             questionsRepository[index] = null;
+            System.out.println("The question has deleted");
 
             for (int i = index; i < questionsRepository.length - 1; i++) {
                 questionsRepository[i] = questionsRepository[i + 1];
             }
-        }
-        questionsRepository[questionsRepository.length - 1] = null;
+            questionsRepository[questionsRepository.length - 1] = null;
 
-        for (int i = 0; i < questionsRepository.length; i++) {
-            if (questionsRepository[i] != null) {
-                questionsRepository[i].setQuestionNumber(i + 1);
+            for (int i = 0; i < questionsRepository.length; i++) {
+                if (questionsRepository[i] != null) {
+                    questionsRepository[i].setQuestionNumber(i + 1);
+                }
             }
         }
+        else {
+            System.out.println("Wrong number has been selected, try again");
+        }
     }
+
+    // add answer that by user input by calling the method from the Question class
+    public void addAnswerToExistingQuestion(String title, int qNum) {
+        this.questionsRepository[qNum-1].addAnswerToQuestion(title);
+    }
+
+    // add answer to new question (part of the Adding new Question to repository only)
+    public void addAnswerToNewQuestion(String ans, int i) {
+        this.questionsRepository[indexOfLastQuestion()].getAnswersForThisQuestion()[i].setAnswerTitle(ans);
+    }
+
+    // finish the creation of new question by setting the answer that user want as "TRUE"
+    public void setStatusForNewQuestion(int aNum) {
+        this.questionsRepository[indexOfLastQuestion()].getAnswersForThisQuestion()[aNum-1].setStatus(true);
+        System.out.println("New question has been successfully added to the repository");
+    }
+
+    // remove answer that user select by calling the method from the Question class
+    public void removeAnswerForQuestion(int num1, int num2) {
+        this.questionsRepository[num1-1].removeAnswerForQuestion(num2);
+    }
+
 
 
     public int indexOfFirstNull() {    // return the first index in the repository that equal to null (no Question object)
@@ -108,6 +138,9 @@ public class QuestionRepository {
             }
         }
     }
+
+
+
 }
 
 
