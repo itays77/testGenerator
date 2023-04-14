@@ -170,7 +170,6 @@ public class Main {
                         if (numOfCorrectAnswers == 1) {
                             System.out.println("Which answer is correct?");
                             int correctAnswerNum = scan.nextInt();
-                            //t1.getTestQuestions()[qAdd].getAnswersForThisQuestion()[correctAnswerNum-1].setStatus(true);
                             t1.getTestQuestions()[i].getAnswersForThisQuestion()[correctAnswerNum-1].setStatus(true);
                         }
                         t1.setStatus(numOfCorrectAnswers, numAns, i);
