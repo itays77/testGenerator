@@ -48,7 +48,7 @@ public class QuestionRepository {
         int index = qNum - 1;
 
         // check if the qNum is valid, and set it to null than shift the other question objects
-        if (index >= 0 && index < indexOfLastQuestion()) {
+        if (index >= 0 && index < indexOfLastQuestion()+1) {
             questionsRepository[index] = null;
             System.out.println("The question has deleted");
 
