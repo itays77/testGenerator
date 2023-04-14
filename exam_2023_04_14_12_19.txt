@@ -1,0 +1,17 @@
+1. How much is 25 + 25 ?
+1 50
+2 35
+3 20
+4 None of the above
+5 More than one answer
+
+2. How much is 10 + 10 ?
+1 50
+2 78
+3 32
+4 6
+5 20
+6 75
+7 None of the above
+8 More than one answer
+
