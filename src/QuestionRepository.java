@@ -16,33 +16,54 @@ public class QuestionRepository {
         return questionsRepository;
     }
 
-    public void setQuestionsInRepository(int num) {
-        this.questionsRepository[num] = new Question();
+    public void setCloseQuestionsInRepository(int num) {
+        this.questionsRepository[num] = new CloseQuestion();
     }
 
-    public Question getQuestionFromRepository(int qNum) {
-        return questionsRepository[qNum - 1];
+
+
+    public CloseQuestion getCloseQuestionFromRepository(int qNum) {
+        return (CloseQuestion) questionsRepository[qNum - 1];
     }
 
-    public Question getQuestion(int qNum) {
-        return this.questionsRepository[qNum-1];
+    public void setOpenQuestionsInRepository(int num) {
+        this.questionsRepository[num] = new OpenQuestion();
     }
+
+    public OpenQuestion getOpenQuestionFromRepository(int qNum) {
+        return (OpenQuestion) questionsRepository[qNum - 1];
+    }
+
+
 
     // methods
 
 
-    public void addQuestionToRepository(String questionTitle, int numOfAnswers) {
+    public void addCloseQuestionToRepository(String questionTitle, int numOfAnswers, Question.eDifficultlyLevel diffLevel) {
         int index = indexOfFirstNull();
-
-        if (numOfAnswers < 9) {
-            //if the questionsRepository is full, copy the array to a double length;
-            if (indexOfFirstNull() == questionsRepository.length) {
-                questionsRepository = Arrays.copyOf(questionsRepository, questionsRepository.length * 2);
+            if (numOfAnswers < 9) {
+                //if the questionsRepository is full, copy the array to a double length;
+                if (indexOfFirstNull() == questionsRepository.length) {
+                    questionsRepository = Arrays.copyOf(questionsRepository, questionsRepository.length * 2);
+                }
+                // calling constructor and create new Question Object in the first index that is "free"
+                questionsRepository[index] = new CloseQuestion(questionTitle, numOfAnswers, diffLevel);
             }
-            // calling constructor and create new Question Object in the first index that is "free"
-            questionsRepository[index] = new Question(questionTitle, numOfAnswers);
-        }
     }
+
+    public void addOpenQuestionToRepository(String questionTitle, String questionAnswer, Question.eDifficultlyLevel diffLevel) {
+        int index = indexOfFirstNull();
+        //if the questionsRepository is full, copy the array to a double length;
+        if (indexOfFirstNull() == questionsRepository.length) {
+            questionsRepository = Arrays.copyOf(questionsRepository, questionsRepository.length * 2);
+        }
+        // calling constructor and create new Question Object in the first index that is "free" ///////
+        questionsRepository[index] = new OpenQuestion(questionTitle, questionAnswer, diffLevel);
+
+    }
+
+
+
 
     public void removeQuestionFromRepository(int qNum) {
         int index = qNum - 1;
@@ -70,23 +91,31 @@ public class QuestionRepository {
 
     // add answer that by user input by calling the method from the Question class
     public void addAnswerToExistingQuestion(String title, int qNum) {
-        this.questionsRepository[qNum-1].addAnswerToQuestion(title);
+        if (questionsRepository[qNum - 1] instanceof CloseQuestion) {
+            ((CloseQuestion) questionsRepository[qNum - 1]).addAnswerToQuestion(title);
+        }
     }
 
     // add answer to new question (part of the Adding new Question to repository only)
     public void addAnswerToNewQuestion(String ans, int i) {
-        this.questionsRepository[indexOfLastQuestion()].getAnswersForThisQuestion()[i].setAnswerTitle(ans);
+        if (questionsRepository[indexOfLastQuestion()] instanceof CloseQuestion) {
+            ((CloseQuestion)questionsRepository[indexOfLastQuestion()]).getAnswersForThisQuestion()[i].setAnswerTitle(ans);
+        }
     }
 
     // finish the creation of new question by setting the answer that user want as "TRUE"
     public void setStatusForNewQuestion(int aNum) {
-        this.questionsRepository[indexOfLastQuestion()].getAnswersForThisQuestion()[aNum-1].setStatus(true);
-        System.out.println("New question has been successfully added to the repository");
+        if (questionsRepository[indexOfLastQuestion()] instanceof CloseQuestion) {
+            ((CloseQuestion)questionsRepository[indexOfLastQuestion()]).getAnswersForThisQuestion()[aNum - 1].setStatus(true);
+            System.out.println("New question has been successfully added to the repository");
+        }
     }
 
-    // remove answer that user select by calling the method from the Question class
     public void removeAnswerForQuestion(int num1, int num2) {
-        this.questionsRepository[num1-1].removeAnswerForQuestion(num2);
+        //this.questionsRepository[num1-1].removeAnswerForQuestion(num2);
+        if (questionsRepository[num1 - 1] instanceof CloseQuestion) {
+            ((CloseQuestion) questionsRepository[num1 - 1]).removeAnswerForQuestion(num2);
+        }
     }
 
 
@@ -117,27 +146,56 @@ public class QuestionRepository {
         for (int i = 0; i < questionsRepository.length; i++) {
             if (questionsRepository[i] == null)
                 break;
-            else {
-                System.out.println("Question " + questionsRepository[i].getQuestionNumber() + " => " +
+            else if(questionsRepository[i] instanceof CloseQuestion) {
+                System.out.println("Question " + questionsRepository[i].getQuestionNumber() + ", **" + questionsRepository[i].getDiffLevel() +"**  => " +
                         questionsRepository[i].getQuestionTitle());
                 questionsRepository[i].printAnswersForQuestion();
+                System.out.println();
+            }
+            else if (questionsRepository[i] instanceof OpenQuestion){
+                System.out.println("Question " + questionsRepository[i].getQuestionNumber() + ", **" + questionsRepository[i].getDiffLevel() +"** => "
+                + questionsRepository[i].getQuestionTitle());
+                System.out.println("The Answer is: " +  ((OpenQuestion) questionsRepository[i]).getQuestionAnswer());
                 System.out.println();
             }
         }
     }
 
-    public void printRepositoryQuestions() {         // print ONLY print the Questions objects that are in the repository, NO ANSWERS.
+    public void printRepositoryQuestions() {         // print ONLY print the Open and Close Questions objects that are in the repository, NO ANSWERS.
         for(int i =0; i< questionsRepository.length; i++) {
             if(questionsRepository[i] == null) {
                 break;
             }
-            else {
-                System.out.println("Question " +
-                        questionsRepository[i].getQuestionNumber() + ". " +
-                        questionsRepository[i].getQuestionTitle());
+            else if(questionsRepository[i] instanceof CloseQuestion || questionsRepository[i] instanceof OpenQuestion) {
+                System.out.println("Question" + questionsRepository[i].getQuestionNumber()
+                + ". " + questionsRepository[i].getQuestionTitle() + " (" + questionsRepository[i].getClass().getSimpleName() + ")");
             }
         }
     }
+
+    public void printCloseRepositoryQuestions() {         // print ONLY print the Open and Close Questions objects that are in the repository, NO ANSWERS.
+        for(int i =0; i< questionsRepository.length; i++) {
+            if(questionsRepository[i] == null) {
+                break;
+            }
+            else if(questionsRepository[i] instanceof CloseQuestion) {
+                System.out.println("Question" + questionsRepository[i].getQuestionNumber()
+                        + ". " + questionsRepository[i].getQuestionTitle() + " (" + questionsRepository[i].getClass().getSimpleName() + ")");
+            }
+        }
+    }
+    public void printOpenRepositoryQuestions() {         // print ONLY print the Open and Close Questions objects that are in the repository, NO ANSWERS.
+        for(int i =0; i< questionsRepository.length; i++) {
+            if(questionsRepository[i] == null) {
+                break;
+            }
+            else if(questionsRepository[i] instanceof OpenQuestion) {
+                System.out.println("Question" + questionsRepository[i].getQuestionNumber()
+                        + ". " + questionsRepository[i].getQuestionTitle() + " (" + questionsRepository[i].getClass().getSimpleName() + ")");
+            }
+        }
+    }
+
 
 
 
