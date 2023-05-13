@@ -62,9 +62,6 @@ public class QuestionRepository {
 
     }
 
-
-
-
     public void removeQuestionFromRepository(int qNum) {
         int index = qNum - 1;
 
@@ -114,7 +111,6 @@ public class QuestionRepository {
             ((CloseQuestion) questionsRepository[num1 - 1]).removeAnswerForQuestion(num2);
         }
     }
-
 
 
     public int indexOfFirstNull() {    // return the first index in the repository that equal to null (no Question object)

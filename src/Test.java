@@ -69,7 +69,7 @@ public class Test {
     public void setAnsStatus(int i, QuestionRepository q, int numOfAns){
         int counter=0;
         for(int j = 0; j < numOfAns; j++) {
-            if(((CloseQuestion)testQuestions[i]).getAnswersForThisQuestion()[j].getAnswerStatus() == true ) {
+            if(((CloseQuestion) testQuestions[i]).getAnswersForThisQuestion()[j].getAnswerStatus()) {
                 counter++;
             }
         }
@@ -95,15 +95,6 @@ public class Test {
 
         }
     }
-
-    // set boolean status of question object in the test by user choice
-//    public void setStatus(int numOfCorrectAnswers, int numAns, int i) {
-//        if (numOfCorrectAnswers == 0) {
-//            ((CloseQuestion) testQuestions[i]).getAnswersForThisQuestion()[numAns].setStatus(true);
-//        } else if (numOfCorrectAnswers > 1) {
-//            ((CloseQuestion) testQuestions[i]).getAnswersForThisQuestion()[numAns + 1].setStatus(true);
-//        }
-//    }
 
     public void createQuestionAndAnswersFile(Question[] questions) throws IOException {
         LocalDateTime now = LocalDateTime.now();

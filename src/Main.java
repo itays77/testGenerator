@@ -46,9 +46,6 @@ public class Main {
 
                     case2(questionRepo, scan);
                     break;
-
-
-
                 }
                 case 3: {
 
@@ -229,6 +226,10 @@ public class Main {
     public static void case6(QuestionRepository questionRepo, Scanner scan) throws IOException {
         System.out.println("How many questions will be in the test?");
         int numOfQuestions = scan.nextInt();
+        if(numOfQuestions < 1 || numOfQuestions > questionRepo.indexOfFirstNull()) {
+            System.out.println("Number is out of range");
+            case6(questionRepo, scan);
+        }
         Test t1 = new Test(numOfQuestions);
 
         for (int i = 0; i < numOfQuestions; i++) {
