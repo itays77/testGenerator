@@ -68,20 +68,32 @@ public class Test {
 
     public void setAnsStatus(int i, QuestionRepository q, int numOfAns){
         int counter=0;
-        int trueIndex = 0;
         for(int j = 0; j < numOfAns; j++) {
             if(((CloseQuestion)testQuestions[i]).getAnswersForThisQuestion()[j].getAnswerStatus() == true ) {
                 counter++;
-                trueIndex = j;
             }
         }
         if(counter == 0) {
+            setAllFalse(((CloseQuestion)testQuestions[i]).getAnswersForThisQuestion());
             ((CloseQuestion)testQuestions[i]).getAnswersForThisQuestion()[numOfAns].setStatus(true);
         }
         if(counter > 1) {
+            setAllFalse(((CloseQuestion)testQuestions[i]).getAnswersForThisQuestion());
             ((CloseQuestion)testQuestions[i]).getAnswersForThisQuestion()[numOfAns+1].setStatus(true);
         }
 
+    }
+
+    public void setAllFalse(Answer [] answers) {
+
+        for(int i=0; i< answers.length; i++) {
+            for(Answer ans : answers) {
+                if( ans != null) {
+                    ans.setStatus(false);
+                }
+            }
+
+        }
     }
 
     // set boolean status of question object in the test by user choice
