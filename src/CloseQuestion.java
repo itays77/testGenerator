@@ -111,7 +111,7 @@ public class CloseQuestion extends Question {
 
         if(index >=0 && index < indexOfFirstNull()) {
             this.answersForThisQuestion[index] = null;
-            System.out.println("The answer has deleted.");
+            //System.out.println("The answer has deleted.");/////////
 
             for (int i = index; i < answersForThisQuestion.length - 1; i++) {
                 this.answersForThisQuestion[i] = answersForThisQuestion[i + 1];
@@ -120,14 +120,12 @@ public class CloseQuestion extends Question {
 
             for (int i = 0; i < answersForThisQuestion.length; i++) {
                 if (answersForThisQuestion[i] != null && answersForThisQuestion[i].getAnswerNumber() >= 1) {
-                    System.out.print(answersForThisQuestion[i].getAnswerNumber());
                     this.answersForThisQuestion[i].setAnswerNumber(i + 1);
-                    System.out.print(answersForThisQuestion[i].getAnswerNumber());
                 }
             }
         }
-        else
-            System.out.println("Wrong number has been selected, try again");
+        //else
+            //System.out.println("Wrong number has been selected, try again");///////
     }
 
     // Add answer by user input=> create a new answer object in the array, setting title and answer number.
@@ -137,10 +135,10 @@ public class CloseQuestion extends Question {
             answersForThisQuestion[index] = new Answer();
             answersForThisQuestion[index].setAnswerTitle(title);
             answersForThisQuestion[index].setAnswerNumber(index+1);
-            System.out.println("Answer has added!");
+            //System.out.println("Answer has added!");///////////
 
         } else {
-            System.out.println("Cannot add more answers! it reached for the maximum number");
+            //System.out.println("Cannot add more answers! it reached for the maximum number");/////////
         }
     }
 

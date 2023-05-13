@@ -98,7 +98,8 @@ public class Test {
                     writer.write("\n");
                 }
                 if (question instanceof OpenQuestion) {
-                    writer.write("The answer is : " + ((OpenQuestion) question).getQuestionAnswer() + "\n");
+                    writer.write(question.getQuestionNumber() + ". " + question.getQuestionTitle() + "\n");
+                    writer.write("The answer is : ______________\n");
                 }
             }
             writer.write("\n");

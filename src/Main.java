@@ -84,17 +84,28 @@ public class Main {
 
 
     public static void case2(QuestionRepository questionRepo, Scanner scan) {
-        System.out.println("For which question you want to add? ");
+        System.out.println("For which question you want to add? This option available for close question only ");
         questionRepo.printCloseRepositoryQuestions();
         int qNum = scan.nextInt();
-        scan.nextLine();
-        System.out.println("Enter answer title:");
-        String title = scan.nextLine();
-        questionRepo.addAnswerToExistingQuestion(title, qNum);
+        if ( qNum <= 0) {
+            System.out.println("Wrong question number entered. There are your options.");
+            case2(questionRepo, scan);
+        }
+        else if(questionRepo.getQuestionsRepository()[qNum-1] instanceof CloseQuestion) {
+            scan.nextLine();
+            System.out.println("Enter answer title:");
+            String title = scan.nextLine();
+            questionRepo.addAnswerToExistingQuestion(title, qNum);
+        }
+
+        else {
+            System.out.println("Wrong question number entered. There are your options.");
+            case2(questionRepo, scan);
+        }
     }
 
     public static void case3(QuestionRepository questionRepo, Scanner scan) {
-        System.out.println("Would type of question you like to add to the repository? ");
+        System.out.println("Would type of question you like to add to the repository? (1 or 2 only) ");
         System.out.println("1. Close Question");
         System.out.println("2. Open Question");
         int type = scan.nextInt();
@@ -102,8 +113,11 @@ public class Main {
         if(type == 1) {
             case3CloseQuestion(questionRepo, scan);
         }
-        if(type == 2) {
+        else if(type == 2) {
             case3OpenQuestion(questionRepo, scan);
+        } else {
+            System.out.println("Wrong number entered. Pick 1 or 2");
+            case3(questionRepo, scan);
         }
 
 
@@ -130,6 +144,10 @@ public class Main {
 
         System.out.println("How many answers for this question?");
         int numOfAnswers = scan.nextInt();
+        if(numOfAnswers < 1 || numOfAnswers > 8) {
+            System.out.println("The number that you enter is out of range. (1-8)");
+            case3CloseQuestion(questionRepo, scan);
+        }
         questionRepo.addCloseQuestionToRepository(title, numOfAnswers, diffLevel);
         scan.nextLine();
         for (int i = 0; i < numOfAnswers; i++) {
@@ -169,16 +187,32 @@ public class Main {
         questionRepo.printCloseRepositoryQuestions();
         System.out.println("Which question you would like to delete answer from?");
         int num1 = scan.nextInt();
-        questionRepo.getQuestionsRepository()[num1-1].printAnswersForQuestion();
-        System.out.println("Which answer you would like to delete?");
-        int num2 = scan.nextInt();
-        questionRepo.removeAnswerForQuestion(num1, num2);
+        if(num1 < 1 || num1 > questionRepo.getQuestionsRepository().length) {
+            System.out.println("Wrong question has been entered. Try aging");
+            case4(questionRepo, scan);
+        }
+        if(questionRepo.getQuestionsRepository()[num1-1] instanceof CloseQuestion) {
+            questionRepo.getQuestionsRepository()[num1 - 1].printAnswersForQuestion();
+            System.out.println("Which answer you would like to delete?");
+            int num2 = scan.nextInt();
+            questionRepo.removeAnswerForQuestion(num1, num2);
+        }
+        else {
+            System.out.println("Wrong question has been entered. Try aging");
+            case4(questionRepo, scan);
+        }
     }
 
     public static void case5(QuestionRepository questionRepo, Scanner scan) {
         System.out.println("Which QUESTION you would like to delete from the repository?");
         questionRepo.printRepositoryQuestions();
-        questionRepo.removeQuestionFromRepository(scan.nextInt());
+        int qNum = scan.nextInt();
+        if (qNum < 1 || qNum > questionRepo.getQuestionsRepository().length || questionRepo.getQuestionsRepository()[qNum - 1] == null) {
+            System.out.println("The number is out of range. Try again");
+            case5(questionRepo, scan);
+        } else {
+            questionRepo.removeQuestionFromRepository(qNum);
+        }
     }
 
     public static void case6(QuestionRepository questionRepo, Scanner scan) throws IOException {
