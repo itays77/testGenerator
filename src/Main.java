@@ -113,7 +113,6 @@ public class Main {
         scan.nextLine();
         System.out.println("Enter question title: ");
         String title = scan.nextLine();
-        System.out.println("Choose the difficultly level of the question: ");
         Question.eDifficultlyLevel diffLevel = setDifficultlyLevels(scan);
         scan.nextLine();
         System.out.println("Enter full answer to the question: ");
@@ -123,6 +122,7 @@ public class Main {
     }
 
     public static void case3CloseQuestion(QuestionRepository questionRepo, Scanner scan) {
+        scan.nextLine();
         System.out.println("Enter question title: ");
         String title = scan.nextLine();
 
@@ -179,7 +179,6 @@ public class Main {
         System.out.println("Which QUESTION you would like to delete from the repository?");
         questionRepo.printRepositoryQuestions();
         questionRepo.removeQuestionFromRepository(scan.nextInt());
-        case5(questionRepo, scan);
     }
 
     public static void case6(QuestionRepository questionRepo, Scanner scan) throws IOException {
@@ -241,7 +240,9 @@ public class Main {
         if (numOfCorrectAnswers == 1) {
             System.out.println("Which answer is correct?");
             int correctAnswerNum = scan.nextInt();
+            //t1.getTestQuestions()[i].getAnswersForThisQuestion()[correctAnswerNum-1].setStatus(true);
             //t1.getCloseQuestionFromTest(index).getAnswersForThisQuestion()[correctAnswerNum - 1].setStatus(true);
+            t1.getCloseQuestionFromTest(index).getAnswersForThisQuestion()[correctAnswerNum-1].setStatus(true);
         }
         t1.setStatus(numOfCorrectAnswers, numAns, index);
 
@@ -284,7 +285,7 @@ public class Main {
         questionRepo.setCloseQuestionsInRepository(2);
         questionRepo.getCloseQuestionFromRepository(3).setDiffLevel(Question.eDifficultlyLevel.Medium);
         questionRepo.getCloseQuestionFromRepository(3).setQuestionTitle("How much is 50 + 35 ?");
-        questionRepo.getCloseQuestionFromRepository(3).setAnswerForThisQuestion(1, "50");
+        questionRepo.getCloseQuestionFromRepository(3).setAnswerForThisQuestion(1, "3");
         questionRepo.getCloseQuestionFromRepository(3).setAnswerForThisQuestion(2, "85");
         questionRepo.getCloseQuestionFromRepository(3).setAnswerForThisQuestion(3, "32");
         questionRepo.getCloseQuestionFromRepository(3).setNumOfCorrectAnswers(1);
@@ -294,7 +295,7 @@ public class Main {
         questionRepo.getCloseQuestionFromRepository(4).setQuestionTitle("How much is 90 - 10 ?");
         questionRepo.getCloseQuestionFromRepository(4).setDiffLevel(Question.eDifficultlyLevel.Medium);
         questionRepo.getCloseQuestionFromRepository(4).setAnswerForThisQuestion(1, "13");
-        questionRepo.getCloseQuestionFromRepository(4).setAnswerForThisQuestion(2, "50");
+        questionRepo.getCloseQuestionFromRepository(4).setAnswerForThisQuestion(2, "66");
         questionRepo.getCloseQuestionFromRepository(4).setAnswerForThisQuestion(3, "100");
         questionRepo.getCloseQuestionFromRepository(4).setAnswerForThisQuestion(4, "80");
         questionRepo.getCloseQuestionFromRepository(4).setAnswerForThisQuestion(5, "35");
@@ -306,9 +307,9 @@ public class Main {
         questionRepo.getCloseQuestionFromRepository(5).setQuestionTitle("How much is 22 + 22 ?");
         questionRepo.getCloseQuestionFromRepository(5).setDiffLevel(Question.eDifficultlyLevel.Hard);
         questionRepo.getCloseQuestionFromRepository(5).setAnswerForThisQuestion(1, "99");
-        questionRepo.getCloseQuestionFromRepository(5).setAnswerForThisQuestion(2, "66");
+        questionRepo.getCloseQuestionFromRepository(5).setAnswerForThisQuestion(2, "4");
         questionRepo.getCloseQuestionFromRepository(5).setAnswerForThisQuestion(3, "22");
-        questionRepo.getCloseQuestionFromRepository(5).setAnswerForThisQuestion(4, "50");
+        questionRepo.getCloseQuestionFromRepository(5).setAnswerForThisQuestion(4, "16");
         questionRepo.getCloseQuestionFromRepository(5).setAnswerForThisQuestion(5, "35");
         questionRepo.getCloseQuestionFromRepository(5).setAnswerForThisQuestion(6, "44");
         questionRepo.getCloseQuestionFromRepository(5).setNumOfCorrectAnswers(1);
