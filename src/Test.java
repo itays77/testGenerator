@@ -63,16 +63,35 @@ public class Test {
 
     public void addAnsForThisQuestion(int i, int aNum, QuestionRepository q, int qAdd, int j) {
         ((CloseQuestion) testQuestions[i]).getAnswersForThisQuestion()[j].setAnswerTitle(q.getCloseQuestionFromRepository(qAdd).getAnswersForThisQuestion()[aNum - 1].getAnswerTitle());
+        ((CloseQuestion) testQuestions[i]).getAnswersForThisQuestion()[j].setStatus(q.getCloseQuestionFromRepository(qAdd).getAnswersForThisQuestion()[aNum-1].getAnswerStatus());
+    }
+
+    public void setAnsStatus(int i, QuestionRepository q, int numOfAns){
+        int counter=0;
+        int trueIndex = 0;
+        for(int j = 0; j < numOfAns; j++) {
+            if(((CloseQuestion)testQuestions[i]).getAnswersForThisQuestion()[j].getAnswerStatus() == true ) {
+                counter++;
+                trueIndex = j;
+            }
+        }
+        if(counter == 0) {
+            ((CloseQuestion)testQuestions[i]).getAnswersForThisQuestion()[numOfAns].setStatus(true);
+        }
+        if(counter > 1) {
+            ((CloseQuestion)testQuestions[i]).getAnswersForThisQuestion()[numOfAns+1].setStatus(true);
+        }
+
     }
 
     // set boolean status of question object in the test by user choice
-    public void setStatus(int numOfCorrectAnswers, int numAns, int i) {
-        if (numOfCorrectAnswers == 0) {
-            ((CloseQuestion) testQuestions[i]).getAnswersForThisQuestion()[numAns].setStatus(true);
-        } else if (numOfCorrectAnswers > 1) {
-            ((CloseQuestion) testQuestions[i]).getAnswersForThisQuestion()[numAns + 1].setStatus(true);
-        }
-    }
+//    public void setStatus(int numOfCorrectAnswers, int numAns, int i) {
+//        if (numOfCorrectAnswers == 0) {
+//            ((CloseQuestion) testQuestions[i]).getAnswersForThisQuestion()[numAns].setStatus(true);
+//        } else if (numOfCorrectAnswers > 1) {
+//            ((CloseQuestion) testQuestions[i]).getAnswersForThisQuestion()[numAns + 1].setStatus(true);
+//        }
+//    }
 
     public void createQuestionAndAnswersFile(Question[] questions) throws IOException {
         LocalDateTime now = LocalDateTime.now();

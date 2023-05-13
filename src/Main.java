@@ -280,16 +280,18 @@ public class Main {
             int aNum = scan.nextInt();
             t1.addAnsForThisQuestion(index, aNum, questionRepo, qAdd, j);
         }
-        System.out.println("How much answers are correct?");
-        int numOfCorrectAnswers = scan.nextInt();
-        if (numOfCorrectAnswers == 1) {
-            System.out.println("Which answer is correct?");
-            int correctAnswerNum = scan.nextInt();
-            //t1.getTestQuestions()[i].getAnswersForThisQuestion()[correctAnswerNum-1].setStatus(true);
-            //t1.getCloseQuestionFromTest(index).getAnswersForThisQuestion()[correctAnswerNum - 1].setStatus(true);
-            t1.getCloseQuestionFromTest(index).getAnswersForThisQuestion()[correctAnswerNum-1].setStatus(true);
-        }
-        t1.setStatus(numOfCorrectAnswers, numAns, index);
+        t1.setAnsStatus(index, questionRepo, numAns);
+
+//        System.out.println("How much answers are correct?");
+//        int numOfCorrectAnswers = scan.nextInt();
+//        if (numOfCorrectAnswers == 1) {
+//            System.out.println("Which answer is correct?");
+//            int correctAnswerNum = scan.nextInt();
+//            //t1.getTestQuestions()[i].getAnswersForThisQuestion()[correctAnswerNum-1].setStatus(true);
+//            //t1.getCloseQuestionFromTest(index).getAnswersForThisQuestion()[correctAnswerNum - 1].setStatus(true);
+//            t1.getCloseQuestionFromTest(index).getAnswersForThisQuestion()[correctAnswerNum-1].setStatus(true);
+//        }
+//        t1.setStatus(numOfCorrectAnswers, numAns, index);
 
     }
 
