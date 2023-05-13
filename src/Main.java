@@ -87,7 +87,7 @@ public class Main {
         System.out.println("For which question you want to add? This option available for close question only ");
         questionRepo.printCloseRepositoryQuestions();
         int qNum = scan.nextInt();
-        if ( qNum <= 0) {
+        if ( qNum <= 0 || qNum >= questionRepo.getQuestionsRepository().length-1) {
             System.out.println("Wrong question number entered. There are your options.");
             case2(questionRepo, scan);
         }
@@ -96,6 +96,14 @@ public class Main {
             System.out.println("Enter answer title:");
             String title = scan.nextLine();
             questionRepo.addAnswerToExistingQuestion(title, qNum);
+            System.out.println("Is the answer True of False?");
+            System.out.println("1. False");
+            System.out.println("2. True");
+            int status = scan.nextInt();
+            if(status == 2) {
+                ((CloseQuestion) questionRepo.getQuestionsRepository()[qNum-1]).getAnswersForThisQuestion()[questionRepo.indexOfFirstNull()].setStatus(true);
+                System.out.println("Answer has been added successfully");
+            }
         }
 
         else {
@@ -105,7 +113,7 @@ public class Main {
     }
 
     public static void case3(QuestionRepository questionRepo, Scanner scan) {
-        System.out.println("Would type of question you like to add to the repository? (1 or 2 only) ");
+        System.out.println("Which type of question would you like to add to the repository? (1 or 2 only)");
         System.out.println("1. Close Question");
         System.out.println("2. Open Question");
         int type = scan.nextInt();
@@ -132,6 +140,7 @@ public class Main {
         System.out.println("Enter full answer to the question: ");
         String answer = scan.nextLine();
         questionRepo.addOpenQuestionToRepository(title, answer, diffLevel);
+        System.out.println("The question has added");
 
     }
 
@@ -159,6 +168,7 @@ public class Main {
         System.out.println("Which answer is correct?");
         int aNum = scan.nextInt();
         questionRepo.setStatusForNewQuestion(aNum);
+        System.out.println("The question has added");
     }
 
     public static Question.eDifficultlyLevel setDifficultlyLevels(Scanner scan) {
@@ -212,6 +222,7 @@ public class Main {
             case5(questionRepo, scan);
         } else {
             questionRepo.removeQuestionFromRepository(qNum);
+            System.out.println("The question has deleted");
         }
     }
 

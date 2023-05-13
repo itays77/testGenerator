@@ -71,7 +71,6 @@ public class QuestionRepository {
         // check if the qNum is valid, and set it to null than shift the other question objects
         if (index >= 0 && index < indexOfLastQuestion()+1) {
             questionsRepository[index] = null;
-            System.out.println("The question has deleted");
 
             for (int i = index; i < questionsRepository.length - 1; i++) {
                 questionsRepository[i] = questionsRepository[i + 1];
@@ -83,9 +82,7 @@ public class QuestionRepository {
                     questionsRepository[i].setQuestionNumber(i + 1);
                 }
             }
-        }
-        else {
-            System.out.println("Wrong number has been selected, try again");
+            Question.QUESTION_NUMBER_COUNTER--;
         }
     }
 
