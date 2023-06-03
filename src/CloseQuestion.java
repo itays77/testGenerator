@@ -1,8 +1,5 @@
 import java.util.Arrays;
-
-
-
-
+import java.util.Arrays;
 public class CloseQuestion extends Question {
 
     // finals
@@ -111,7 +108,7 @@ public class CloseQuestion extends Question {
 
         if(index >=0 && index < indexOfFirstNull()) {
             this.answersForThisQuestion[index] = null;
-            //System.out.println("The answer has deleted.");/////////
+            //System.out.println("The answer has been deleted.");/////////
 
             for (int i = index; i < answersForThisQuestion.length - 1; i++) {
                 this.answersForThisQuestion[i] = answersForThisQuestion[i + 1];
@@ -125,7 +122,7 @@ public class CloseQuestion extends Question {
             }
         }
         //else
-            //System.out.println("Wrong number has been selected, try again");///////
+        //System.out.println("Wrong number has been selected, try again");///////
     }
 
     // Add answer by user input=> create a new answer object in the array, setting title and answer number.

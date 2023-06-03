@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Arrays;
 
 public class QuestionRepository {
 
@@ -41,14 +42,14 @@ public class QuestionRepository {
 
     public void addCloseQuestionToRepository(String questionTitle, int numOfAnswers, Question.eDifficultlyLevel diffLevel) {
         int index = indexOfFirstNull();
-            if (numOfAnswers < 9) {
-                //if the questionsRepository is full, copy the array to a double length;
-                if (indexOfFirstNull() == questionsRepository.length) {
-                    questionsRepository = Arrays.copyOf(questionsRepository, questionsRepository.length * 2);
-                }
-                // calling constructor and create new Question Object in the first index that is "free"
-                questionsRepository[index] = new CloseQuestion(questionTitle, numOfAnswers, diffLevel);
+        if (numOfAnswers < 9) {
+            //if the questionsRepository is full, copy the array to a double length;
+            if (indexOfFirstNull() == questionsRepository.length) {
+                questionsRepository = Arrays.copyOf(questionsRepository, questionsRepository.length * 2);
             }
+            // calling constructor and create new Question Object in the first index that is "free"
+            questionsRepository[index] = new CloseQuestion(questionTitle, numOfAnswers, diffLevel);
+        }
     }
 
     public void addOpenQuestionToRepository(String questionTitle, String questionAnswer, Question.eDifficultlyLevel diffLevel) {
@@ -101,7 +102,7 @@ public class QuestionRepository {
     public void setStatusForNewQuestion(int aNum) {
         if (questionsRepository[indexOfLastQuestion()] instanceof CloseQuestion) {
             ((CloseQuestion)questionsRepository[indexOfLastQuestion()]).getAnswersForThisQuestion()[aNum - 1].setStatus(true);
-            System.out.println("New question has been successfully added to the repository");
+            System.out.println(" A New question has been successfully added to the repository");
         }
     }
 
@@ -147,7 +148,7 @@ public class QuestionRepository {
             }
             else if (questionsRepository[i] instanceof OpenQuestion){
                 System.out.println("Question " + questionsRepository[i].getQuestionNumber() + ", **" + questionsRepository[i].getDiffLevel() +"** => "
-                + questionsRepository[i].getQuestionTitle());
+                        + questionsRepository[i].getQuestionTitle());
                 System.out.println("The Answer is: " +  ((OpenQuestion) questionsRepository[i]).getQuestionAnswer());
                 System.out.println();
             }
@@ -161,7 +162,7 @@ public class QuestionRepository {
             }
             else if(questionsRepository[i] instanceof CloseQuestion || questionsRepository[i] instanceof OpenQuestion) {
                 System.out.println("Question" + questionsRepository[i].getQuestionNumber()
-                + ". " + questionsRepository[i].getQuestionTitle() + " (" + questionsRepository[i].getClass().getSimpleName() + ")");
+                        + ". " + questionsRepository[i].getQuestionTitle() + " (" + questionsRepository[i].getClass().getSimpleName() + ")");
             }
         }
     }
@@ -188,11 +189,6 @@ public class QuestionRepository {
             }
         }
     }
-
-
-
-
 }
-
 
 

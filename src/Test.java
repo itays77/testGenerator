@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Test {
+public abstract class Test implements Examable {
 
     //members
     private int numOfQuestions;
-    private Question[] testQuestions;
+    protected Question[] testQuestions;
 
 
     //constructors
@@ -63,32 +63,32 @@ public class Test {
 
     public void addAnsForThisQuestion(int i, int aNum, QuestionRepository q, int qAdd, int j) {
         ((CloseQuestion) testQuestions[i]).getAnswersForThisQuestion()[j].setAnswerTitle(q.getCloseQuestionFromRepository(qAdd).getAnswersForThisQuestion()[aNum - 1].getAnswerTitle());
-        ((CloseQuestion) testQuestions[i]).getAnswersForThisQuestion()[j].setStatus(q.getCloseQuestionFromRepository(qAdd).getAnswersForThisQuestion()[aNum-1].getAnswerStatus());
+        ((CloseQuestion) testQuestions[i]).getAnswersForThisQuestion()[j].setStatus(q.getCloseQuestionFromRepository(qAdd).getAnswersForThisQuestion()[aNum - 1].getAnswerStatus());
     }
 
-    public void setAnsStatus(int i, QuestionRepository q, int numOfAns){
-        int counter=0;
-        for(int j = 0; j < numOfAns; j++) {
-            if(((CloseQuestion) testQuestions[i]).getAnswersForThisQuestion()[j].getAnswerStatus()) {
+    public void setAnsStatus(int i, QuestionRepository q, int numOfAns) {
+        int counter = 0;
+        for (int j = 0; j < numOfAns; j++) {
+            if (((CloseQuestion) testQuestions[i]).getAnswersForThisQuestion()[j].getAnswerStatus()) {
                 counter++;
             }
         }
-        if(counter == 0) {
-            setAllFalse(((CloseQuestion)testQuestions[i]).getAnswersForThisQuestion());
-            ((CloseQuestion)testQuestions[i]).getAnswersForThisQuestion()[numOfAns].setStatus(true);
+        if (counter == 0) {
+            setAllFalse(((CloseQuestion) testQuestions[i]).getAnswersForThisQuestion());
+            ((CloseQuestion) testQuestions[i]).getAnswersForThisQuestion()[numOfAns].setStatus(true);
         }
-        if(counter > 1) {
-            setAllFalse(((CloseQuestion)testQuestions[i]).getAnswersForThisQuestion());
-            ((CloseQuestion)testQuestions[i]).getAnswersForThisQuestion()[numOfAns+1].setStatus(true);
+        if (counter > 1) {
+            setAllFalse(((CloseQuestion) testQuestions[i]).getAnswersForThisQuestion());
+            ((CloseQuestion) testQuestions[i]).getAnswersForThisQuestion()[numOfAns + 1].setStatus(true);
         }
 
     }
 
-    public void setAllFalse(Answer [] answers) {
+    public void setAllFalse(Answer[] answers) {
 
-        for(int i=0; i< answers.length; i++) {
-            for(Answer ans : answers) {
-                if( ans != null) {
+        for (int i = 0; i < answers.length; i++) {
+            for (Answer ans : answers) {
+                if (ans != null) {
                     ans.setStatus(false);
                 }
             }
@@ -161,6 +161,14 @@ public class Test {
         }
 
         writer.close();
-        }
     }
+
+
+    public void createExam() {
+
+    }
+
+    public abstract void createExam(Question[] questions) throws IOException;
+}
+
 

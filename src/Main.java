@@ -5,6 +5,8 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
+        //  the state fish of Hawaii is the humuhumunukunukuapuaʻa  //cool fact
+
 
         QuestionRepository questionRepo = new QuestionRepository();
         fillQuestionRepo(questionRepo);
@@ -18,6 +20,10 @@ public class Main {
         boolean stop = false;
 
         Scanner scan = new Scanner(System.in);
+        AutomaticExam a1 = new AutomaticExam(5);
+        System.out.println(questionRepo.indexOfLastQuestion());
+        System.out.println(a1.getRandomNumber(questionRepo.indexOfLastQuestion()));
+        System.out.println(questionRepo.getCloseQuestionFromRepository(8).indexOfFirstNull());
         System.out.println("\n\nWelcome to the Q&A Repository!");
         System.out.println("\n\nReview, Update, Add new ones and create tets FAST!");
 
@@ -25,10 +31,10 @@ public class Main {
 
             System.out.println("\n\nWhat Would you like to do?");
             System.out.println("Enter 1 - Review existing questions and their answers from the repository");
-            System.out.println("Enter 2 - Add new answer to existing question");
-            System.out.println("Enter 3 - Add new question to the repository");
-            System.out.println("Enter 4 - Delete answer to existing question");
-            System.out.println("Enter 5 - Delete question from repository");
+            System.out.println("Enter 2 - Add a new answer to an existing question");
+            System.out.println("Enter 3 - Add a new question to the repository");
+            System.out.println("Enter 4 - Delete answer to an existing question");
+            System.out.println("Enter 5 - Delete a question from repository");
             System.out.println("Enter 6 - create ** TEST **");
             System.out.println("==> Enter 0 - Stop! <==");
 
@@ -38,6 +44,7 @@ public class Main {
             switch (answer) {
 
                 case 1: {
+
                     questionRepo.printRepository();
 
                     break;
@@ -71,6 +78,7 @@ public class Main {
 
                 case 0: {
                     stop = true;
+                    System.out.println("GOO-BYE & GOOD LUCK");
                     break;
                 }
             }
@@ -224,13 +232,26 @@ public class Main {
     }
 
     public static void case6(QuestionRepository questionRepo, Scanner scan) throws IOException {
+        System.out.println("Would type of test would you lie to create?");
+        int ans = scan.nextInt();
+        if(ans == 1) {
+            case6ManuelExam(questionRepo, scan);
+        }
+        if(ans == 2) {
+            case6AutomaticExam(questionRepo, scan);
+        }
+
+    }
+
+    public static void case6ManuelExam(QuestionRepository questionRepo, Scanner scan) throws IOException {
+
         System.out.println("How many questions will be in the test?");
         int numOfQuestions = scan.nextInt();
         if(numOfQuestions < 1 || numOfQuestions > questionRepo.indexOfFirstNull()) {
             System.out.println("Number is out of range");
-            case6(questionRepo, scan);
+            case6ManuelExam(questionRepo, scan);
         }
-        Test t1 = new Test(numOfQuestions);
+        ManualExam m1 = new ManualExam(numOfQuestions);
 
         for (int i = 0; i < numOfQuestions; i++) {
             questionRepo.printRepositoryQuestions();
@@ -239,21 +260,29 @@ public class Main {
             int qAdd = scan.nextInt();
 
             if (questionRepo.getQuestionsRepository()[qAdd - 1] instanceof CloseQuestion) {
-                addCloseQuestionToTest(questionRepo, t1, i, scan, qAdd);
+                addCloseQuestionToTest(questionRepo, m1, i, scan, qAdd);
             }
             if (questionRepo.getQuestionsRepository()[qAdd - 1] instanceof OpenQuestion) {
-                addOpenQuestionToTheTest(questionRepo, t1, i, scan, qAdd);
+                addOpenQuestionToTheTest(questionRepo, m1, i, scan, qAdd);
             }
         }
 
-        t1.createQuestionAndAnswersFile(t1.getTestQuestions());
-        t1.createSolutionFile(t1.getTestQuestions());
+        m1.createExam(m1.getTestQuestions());
         System.out.println("New test created");
 
+    }
 
+    public static void case6AutomaticExam(QuestionRepository questionRepo, Scanner scan) throws IOException {
+        System.out.println("How many questions will be in the test?");
+        int numOfQuestions = scan.nextInt();
+        if(numOfQuestions < 1 || numOfQuestions > questionRepo.indexOfFirstNull()) {
+            System.out.println("Number is out of range");
+            case6AutomaticExam(questionRepo, scan);
+        }
+        AutomaticExam a1 = new AutomaticExam(numOfQuestions);
+        a1.drillAndAddQuestions(numOfQuestions, questionRepo);
 
-
-
+        a1.createExam(a1.getTestQuestions());
 
 
 
@@ -336,6 +365,9 @@ public class Main {
         questionRepo.getCloseQuestionFromRepository(3).setAnswerForThisQuestion(1, "3");
         questionRepo.getCloseQuestionFromRepository(3).setAnswerForThisQuestion(2, "85");
         questionRepo.getCloseQuestionFromRepository(3).setAnswerForThisQuestion(3, "32");
+        questionRepo.getCloseQuestionFromRepository(3).setAnswerForThisQuestion(3, "63");
+        questionRepo.getCloseQuestionFromRepository(3).setAnswerForThisQuestion(3, "11");
+        questionRepo.getCloseQuestionFromRepository(3).setAnswerForThisQuestion(3, "55");
         questionRepo.getCloseQuestionFromRepository(3).setNumOfCorrectAnswers(1);
         questionRepo.getCloseQuestionFromRepository(3).getAnswersForThisQuestion()[1].setStatus(true);
 
@@ -367,9 +399,22 @@ public class Main {
         questionRepo.getOpenQuestionFromRepository(6).setQuestionTitle("What is the color of the sun?");
         questionRepo.getOpenQuestionFromRepository(6).setDiffLevel(Question.eDifficultlyLevel.Medium);
         questionRepo.getOpenQuestionFromRepository(6).setQuestionAnswer("Yellow");
+
+        questionRepo.setOpenQuestionsInRepository(6);
+        questionRepo.getOpenQuestionFromRepository(7).setQuestionTitle("What is the color of the sea?");
+        questionRepo.getOpenQuestionFromRepository(7).setDiffLevel(Question.eDifficultlyLevel.Medium);
+        questionRepo.getOpenQuestionFromRepository(7).setQuestionAnswer("Blue");
+
+        questionRepo.setCloseQuestionsInRepository(7);
+        questionRepo.getCloseQuestionFromRepository(8).setQuestionTitle("How much is 88 + 11 ?");
+        questionRepo.getCloseQuestionFromRepository(8).setDiffLevel(Question.eDifficultlyLevel.Hard);
+        questionRepo.getCloseQuestionFromRepository(8).setAnswerForThisQuestion(1, "99");
+        questionRepo.getCloseQuestionFromRepository(8).setAnswerForThisQuestion(2, "4");
+        questionRepo.getCloseQuestionFromRepository(8).setAnswerForThisQuestion(3, "22");
+        questionRepo.getCloseQuestionFromRepository(5).setNumOfCorrectAnswers(1);
+        questionRepo.getCloseQuestionFromRepository(5).getAnswersForThisQuestion()[1].setStatus(true);
     }
 
 
 
 }
-

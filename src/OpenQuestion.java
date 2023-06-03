@@ -1,6 +1,6 @@
 public class OpenQuestion extends Question{
 
-    //varibles
+    //variables
     String questionAnswer;
 
     public OpenQuestion(){
@@ -17,14 +17,14 @@ public class OpenQuestion extends Question{
 
     }
 
-    //getset
+    //get/set
 
     public void setQuestionAnswer(String title) {
         this.questionAnswer = title;
     }
 
     public String getQuestionAnswer() {
-       return this.questionAnswer;
+        return this.questionAnswer;
     }
 
 
