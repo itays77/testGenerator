@@ -29,7 +29,10 @@ public class AutomaticExam extends Test{
            }
            if(q.getQuestionsRepository()[r] instanceof OpenQuestion) {
                testQuestions[i] = new OpenQuestion();
-               addOpenQuestionForThisTest(i, r, q);
+               testQuestions[i].setQuestionNumber(i + 1);
+               testQuestions[i].setDiffLevel(q.getQuestionsRepository()[r].diffLevel);
+               ((OpenQuestion) testQuestions[i]).setQuestionTitle(q.getQuestionsRepository()[r].getQuestionTitle());
+               ((OpenQuestion) testQuestions[i]).setQuestionAnswer(((OpenQuestion) q.getQuestionsRepository()[r]).getQuestionAnswer());
            }
        }
     }
